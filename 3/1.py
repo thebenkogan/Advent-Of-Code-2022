@@ -17,11 +17,8 @@ total = 0
 for sack in sacks:
     mid = int(len(sack) / 2)
     l = set(sack[:mid])
-    r = sack[mid:]
-    for c in r:
-        if c in l:
-            total += get_score(c)
-            break
-
+    r = set(sack[mid:])
+    ans = l.intersection(r).pop()
+    total += get_score(ans)
 
 print(total)
