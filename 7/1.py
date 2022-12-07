@@ -17,9 +17,7 @@ for c in commands:
         case ["$", "cd", dir]:
             ext = f"/{dir if dir != '/' else ''}"
             dir_path.append("/".join(dir_path) + ext)
-        case ["$", "ls"]:
-            continue
-        case [size_str, _] if size_str != "dir":
+        case [size_str, _] if "$" != size_str != "dir":
             for v in dir_path:
                 dir_sizes[v] += int(size_str)
 
