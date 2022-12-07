@@ -1,7 +1,6 @@
 # ans = 1300850
 
 from collections import defaultdict
-import math
 
 DISK_SPACE = 70_000_000
 THRESHOLD = 30_000_000
@@ -26,9 +25,5 @@ for c in commands:
                 dir_sizes[v] += int(size_str)
 
 remaining = THRESHOLD - (DISK_SPACE - dir_sizes["/"])
-best = math.inf
-for size in dir_sizes.values():
-    if size >= remaining:
-        best = min(size, best)
-
+best = min([size for size in dir_sizes.values() if size >= remaining])
 print(best)
