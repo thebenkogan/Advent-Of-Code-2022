@@ -15,10 +15,9 @@ for i, row in enumerate(trees):
             num_trees_visible = 0
             while 0 <= px < len(row) and 0 <= py < len(trees):
                 tree_height = int(trees[py][px])
-                if tree_height >= curr_height:
-                    num_trees_visible += tree_height == curr_height
-                    break
                 num_trees_visible += 1
+                if tree_height >= curr_height:
+                    break
                 px += dx
                 py += dy
 
