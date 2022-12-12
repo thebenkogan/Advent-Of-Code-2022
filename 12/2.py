@@ -16,15 +16,14 @@ def get_elevation(height):
     return "a" if height == "S" else "z" if height == "E" else height
 
 
-start_options = []
-
+frontier = deque()
 for i, row in enumerate(rows):
     for j, col in enumerate(row):
         if col == "E":
             end_coord = (i, j)
         elevation = get_elevation(col)
         if elevation == "a":
-            start_options.append((i, j))
+            frontier.append(((i, j), 0))
         for dx, dy in directions:
             px, py = j + dx, i + dy
             if 0 <= px < len(rows[0]) and 0 <= py < len(rows):
@@ -33,20 +32,18 @@ for i, row in enumerate(rows):
                     adj_map[(i, j)].append((py, px))
 
 best_steps = math.inf
-for start_coord in start_options:
-    frontier = deque([(start_coord, 0)])
-    seen = set()
-    while len(frontier) > 0:
-        coord, steps = frontier.popleft()
-        if coord in seen:
-            continue
-        if coord == end_coord:
-            best_steps = min(best_steps, steps)
-            break
-        seen.add(coord)
-        edges = adj_map[coord]
-        for node in edges:
-            frontier.append((node, steps + 1))
+seen = set()
+while len(frontier) > 0:
+    coord, steps = frontier.popleft()
+    if coord in seen:
+        continue
+    if coord == end_coord:
+        best_steps = min(best_steps, steps)
+        break
+    seen.add(coord)
+    edges = adj_map[coord]
+    for node in edges:
+        frontier.append((node, steps + 1))
 
 
 print(best_steps)

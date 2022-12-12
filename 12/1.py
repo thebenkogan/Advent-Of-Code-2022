@@ -15,10 +15,12 @@ def get_elevation(height):
     return "a" if height == "S" else "z" if height == "E" else height
 
 
+frontier = deque()
+
 for i, row in enumerate(rows):
     for j, col in enumerate(row):
         if col == "S":
-            start_coord = (i, j)
+            frontier.append(((i, j), 0))
         elif col == "E":
             end_coord = (i, j)
         elevation = get_elevation(col)
@@ -30,7 +32,6 @@ for i, row in enumerate(rows):
                     adj_map[(i, j)].append((py, px))
 
 best_steps = 0
-frontier = deque([(start_coord, 0)])
 seen = set()
 while len(frontier) > 0:
     coord, steps = frontier.popleft()
