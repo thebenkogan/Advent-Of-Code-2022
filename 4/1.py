@@ -1,6 +1,9 @@
 # ans = 462
 
-with open("i1.txt") as f:
+test = False
+
+input_name = "test" if test else "in"
+with open(f"{input_name}.txt") as f:
     pairs = f.readlines()
 
 

@@ -4,7 +4,10 @@ from collections import defaultdict
 
 MAX_SIZE = 100_000
 
-with open("i1.txt") as f:
+test = False
+
+input_name = "test" if test else "in"
+with open(f"{input_name}.txt") as f:
     commands = f.readlines()
 
 dir_path = []

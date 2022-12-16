@@ -5,7 +5,10 @@ from collections import defaultdict
 DISK_SPACE = 70_000_000
 THRESHOLD = 30_000_000
 
-with open("i2.txt") as f:
+test = False
+
+input_name = "test" if test else "in"
+with open(f"{input_name}.txt") as f:
     commands = f.readlines()
 
 dir_path = []

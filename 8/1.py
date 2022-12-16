@@ -1,6 +1,9 @@
 # ans = 1679
 
-with open("i1.txt") as f:
+test = False
+
+input_name = "test" if test else "in"
+with open(f"{input_name}.txt") as f:
     trees = [line.strip() for line in f.readlines()]
 
 directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]

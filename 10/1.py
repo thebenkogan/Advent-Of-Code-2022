@@ -3,7 +3,10 @@
 LAST_CHECKPOINT = 220
 CHECKPOINT_STEP = 40
 
-with open("i1.txt") as f:
+test = False
+
+input_name = "test" if test else "in"
+with open(f"{input_name}.txt") as f:
     instructions = [line.strip() for line in f.readlines()]
 
 total = 0

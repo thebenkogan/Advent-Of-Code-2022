@@ -2,7 +2,10 @@
 import json
 from functools import cmp_to_key
 
-with open("i2.txt") as f:
+test = False
+
+input_name = "test" if test else "in"
+with open(f"{input_name}.txt") as f:
     pairs = f.read().strip().split("\n\n")
 
 decoded = [[[2]], [[6]]]

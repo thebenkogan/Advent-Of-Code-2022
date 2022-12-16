@@ -4,7 +4,10 @@ from collections import deque
 
 WINDOW_LENGTH = 14
 
-with open("i2.txt") as f:
+test = False
+
+input_name = "test" if test else "in"
+with open(f"{input_name}.txt") as f:
     signal = f.read()
 
 start = 0
