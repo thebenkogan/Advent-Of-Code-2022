@@ -3,6 +3,8 @@
 import heapq as hq
 from math import hypot
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+import numpy as np
 
 test = False
 
@@ -25,12 +27,16 @@ for cube in cubes:
 
 
 max_x, sum_x, sum_y, sum_z = 0, 0, 0, 0
-xvals, yvals, zvals = [], [], []
-for x, y, z in positions:
+xvals, yvals, zvals = (
+    np.zeros(len(positions)),
+    np.zeros(len(positions)),
+    np.zeros(len(positions)),
+)
+for i, (x, y, z) in enumerate(positions):
     x = max(max_x, x)
-    xvals.append(x)
-    yvals.append(y)
-    zvals.append(z)
+    xvals[i] = x
+    yvals[i] = y
+    zvals[i] = z
     sum_x += x
     sum_y += y
     sum_z += z
@@ -40,8 +46,16 @@ start = (max_x + 2, 0, 0)
 frontier = [(dist(start, avg), start)]
 seen = set([start])
 total = 0
-for _ in range(3000):
+search_xvals, search_yvals, search_zvals = (
+    np.zeros(3000),
+    np.zeros(3000),
+    np.zeros(3000),
+)
+for i in range(3000):
     x, y, z = hq.heappop(frontier)[1]
+    search_xvals[i] = x
+    search_yvals[i] = y
+    search_zvals[i] = z
     for dx, dy, dz in adjacencies:
         next_pos = (x + dx, y + dy, z + dz)
         if next_pos in seen:
@@ -52,16 +66,28 @@ for _ in range(3000):
         seen.add(next_pos)
         hq.heappush(frontier, (dist(next_pos, avg), next_pos))
 
-search_xvals, search_yvals, search_zvals = [], [], []
-for x, y, z in seen:
-    search_xvals.append(x)
-    search_yvals.append(y)
-    search_zvals.append(z)
 
 fig = plt.figure(figsize=(12, 12))
 ax = fig.add_subplot(projection="3d")
-ax.scatter(xvals, yvals, zvals, alpha=0.4)
-ax.scatter(search_xvals, search_yvals, search_zvals, c="purple", alpha=0.4, s=10)
+ax.scatter(xvals, yvals, zvals, s=20, alpha=0.4)
+search = ax.scatter([], [], [], c="purple", s=40)
+
+
+SEARCH_SPEED = 10
+
+
+def update(i):
+    search._offsets3d = (
+        search_xvals[: i * SEARCH_SPEED],
+        search_yvals[: i * SEARCH_SPEED],
+        search_zvals[: i * SEARCH_SPEED],
+    )
+
+
+anim = FuncAnimation(
+    fig, update, frames=len(search_xvals) // SEARCH_SPEED, interval=1, repeat=False
+)
+anim.save("flood.gif", fps=30)
 ax.scatter(*start, c="red", marker="*")
 ax.text(*start, "start")
 ax.scatter(*avg, c="green", marker="o", s=400)
