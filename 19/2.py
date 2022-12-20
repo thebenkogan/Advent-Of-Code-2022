@@ -1,4 +1,4 @@
-# ans = 4192
+# ans = 2700
 
 from collections import deque
 
